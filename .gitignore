@@ -13,4 +13,4 @@ pytest_cache/*
 .pydevproject
 .settings
 .settings/*
-.venv
+venv3/*
