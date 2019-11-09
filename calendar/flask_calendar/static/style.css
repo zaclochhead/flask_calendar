@@ -1,0 +1,284 @@
+body {
+    font:1em/1.4 Verdana, Arial, Helvetica, sans-serif;
+    color: #222;
+    background-color: #FCFCFC;
+}
+
+li {
+    list-style: none;
+}
+
+.header {
+    display: inline;
+}
+
+.header .current-date {
+    color: #444;
+    display: inline;
+    font-weight: 700;
+    font-size: 1.5em;
+    padding-left: 6px;
+    padding-right: 6px;
+    min-width: 25%;
+}
+
+.header .back-to-current {
+    display: inline;
+    color: #444;
+    font-size: 1.25em;
+    font-weight: 700;
+}
+
+.header .back-to-current a {
+    color: #444;
+    text-decoration: underline;
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.button, .button a {
+    font-size: 1.3em;
+    font-weight: 700;
+    padding: 3px 6px 3px 6px;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.new-task {
+    color: #F7F7F7;
+    background-color: #A1D360;
+    margin-top: 18px;
+}
+
+.form-button {
+    font-size: 1em;
+    font-weight: 700;
+    padding: 3px 6px 3px 6px;
+    margin-top: 9px;
+    margin-right: 3px;
+    border: 1px solid #777777;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.form-button.delete-task {
+    color: #F7F7F7;
+    background-color: #D04040;
+}
+
+.smaller {
+    padding: 0px 3px 2px 3px;
+    font-size: 95%;
+}
+
+.change-date {
+    color: #444;
+    background-color: #DDD;
+}
+
+.toggle-past-events {
+    color: #444;
+    background-color: #DDD;
+    border-radius: 4px;
+    float: right;
+}
+
+.remove-task {
+    color: #F7F7F7;
+    background-color: #FF6B6B;
+    margin-right: 2px;
+    float: right;
+}
+
+.hide-recurrent-task {
+    color: #F7F7F7;
+    background-color: #556270;
+    margin-right: 2px;
+    float: right;
+}
+
+.recurrent-task {
+    color: #F7F7F7;
+    background-color: #4ECDC4;
+    margin-right: 2px;
+    float: right;
+}
+
+.edit-task {
+    color: #F7F7F7;
+    background-color: #79BD9A;
+    margin-right: 2px;
+    float: right;
+}
+
+.calendar-header {
+  padding: 0;
+  margin-top: 3px;
+  margin-bottom: 0;
+  display: flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  min-width: 400px;
+}
+
+.weekday-header {
+  background-color: #C0C9CC;
+  color: #666;
+  padding: 1px;
+  margin: 1px;
+  list-style:none;
+  flex-grow: 1;
+  flex-basis: 12%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.calendar {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  min-width: 400px;
+}
+
+.day {
+  background-color: #F2F1F0;
+  padding: 3px;
+  margin: 1px;
+  min-height: 120px;
+  margin-top: 6px;
+  list-style:none;
+  flex-grow: 1;
+  flex-basis: 13.5%;
+  overflow: auto;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.othermonth {
+  background-color: #DEDDDB;
+  cursor: auto;
+}
+
+span.daynumber {
+    font-weight: 400;
+    color: #666;
+    padding: 3px;
+}
+
+span.daynumber-current {
+    font-weight: 700;
+    color: #F7F7F7;
+    background-color: #A1D360;
+    padding: 3px;
+    border-radius: 15%;
+}
+
+.othermonth span.daynumber {
+    color: #777774;
+}
+
+ul.tasks {
+    font-weight: 300;
+    font-size: 75%;
+    margin: 1px;
+    padding: 0;
+}
+
+ul.tasks li {
+    background-color: #444;
+    color: #FEFEFE;
+    margin-bottom: 1px;
+    padding: 0 4px;
+    cursor: pointer;
+}
+
+ul.tasks li a {
+    color: #F0F0F0;
+
+}
+
+.accordion-hidden {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.accordion-visible {
+    border-top: 1px dashed #CCC;
+    margin: 0;
+    padding: 0 0 3px 0;
+}
+
+.hidden {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.task-details-form label {
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+#statusbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 26px;
+    z-index: 4000000;
+    visibility: hidden;
+    font-weight: 700;
+    text-align: center;
+}
+
+.processing {
+    visibility: visible !important;
+    color: #F7F7F7;
+    background-color: #A1D360;
+}
+
+.error {
+    visibility: visible !important;
+    color: #F7F7F7;
+    background-color: #EB5A46;
+}
+
+@media screen and (max-width:650px) {
+
+    .header .current-date {
+        font-size: 0.85em;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .header .back-to-current {
+        font-size: 0.60em;
+    }
+
+    .button, .button a {
+        font-size: 2em;
+    }
+
+    .form-button {
+        font-size: 1em;
+    }
+
+    .toggle-past-events {
+    font-size: 1.1em;
+    }
+
+    .day {
+    min-height: 30px;
+    margin-top: 3px;
+    }
+
+}
