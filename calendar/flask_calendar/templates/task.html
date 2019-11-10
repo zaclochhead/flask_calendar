@@ -14,12 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
     {% if editing %}
         <form autocomplete="off" method="POST"
             action="{{ base_url }}/{{ calendar_id }}/{{ year }}/{{ month }}/{{ day }}/task/{{ task.get("id") }}">
     {% else %}
-        <form autocomplete="off" method="POST" action="{{ base_url }}/{{ calendar_id }}/new_task">
+        <form autocomplete="off" enctype="multipart/form-data" method="POST" action="{{ base_url }}/{{ calendar_id }}/new_task">
     {% endif %}
     <div id="task-details-form" class="task-details-form">
 
@@ -102,9 +101,12 @@
         <br/>
 	<label for="text">Image</label>
         <br/>
-	<input type="file" id="image" name="image" />
+	<input type="file" name="test" />
 	<br/>
-
+                {% if task.get("image") %}
+			<img width="25%" src="{{ url_for("static", filename=task.get("image")) }}" />
+                {% endif %}
+	<br/>
 
         <label for="color">Color</label>
         <input type="color" value="{{ task.get("color", "#53A93F") }}" id="color_custom" />

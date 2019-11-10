@@ -28,5 +28,6 @@ SHOW_VIEW_PAST_BUTTON = True
 # Of use if SHOW_VIEW_PAST_BUTTON is False
 HIDE_PAST_TASKS = False
 
+IMAGE_PATH = "flask_calendar/static/"
 # days past to keep hidden tasks (future ones always kept) counting all months as 31 days long
 DAYS_PAST_TO_KEEP_HIDDEN_TASKS = 62

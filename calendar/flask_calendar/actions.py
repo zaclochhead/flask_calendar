@@ -1,4 +1,4 @@
-
+import os
 import re
 from typing import (cast, Optional)  # noqa: F401
 from werkzeug.wrappers import Response
@@ -174,7 +174,12 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
     # Logic is same as save + delete, could refactor but can wait until need to change any save/delete logic
 
     calendar_data = CalendarData(current_app.config['DATA_FOLDER'])
-
+    image_name=''
+    image = request.files.get('test', '')
+    if image:
+        print("saving image {}".format(image.filename))
+        image_name = image.filename
+        image.save(os.path.join(current_app.config['DATA_FOLDER'], image.filename))
     # For creation of "updated" task use only form data
     title = request.form["title"].strip()
     date = request.form.get("date", "")
@@ -188,8 +193,6 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
     is_all_day = request.form.get("is_all_day", "0") == "1"
     due_time = request.form["due_time"]
     details = request.form["details"].replace("\r", "").replace("\n", "<br>")
-    image = request.files.get('image', '')
-    #image = request.form["image"]
     color = request.form["color"]
     has_repetition = request.form.get("repeats", "0") == "1"
     repetition_type = request.form.get("repetition_type", "")
@@ -203,7 +206,7 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
                               title=title,
                               is_all_day=is_all_day,
                               due_time=due_time,
-                              image=image,
+                              image=image_name,
                               details=details,
                               color=color,
                               has_repetition=has_repetition,
@@ -229,6 +232,12 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
 
 def save_task_action(calendar_id: str) -> Response:
     title = request.form["title"].strip()
+    image_name=''
+    image = request.files.get('test', '')
+    if image:
+        print("saving image {}".format(image.filename))
+        image_name = image.filename
+        image.save(os.path.join(current_app.config['IMAGE_PATH'], image.filename))
     date = request.form.get("date", "")
     if len(date) > 0:
         date_fragments = re.split("-", date)
@@ -240,12 +249,9 @@ def save_task_action(calendar_id: str) -> Response:
     is_all_day = request.form.get("is_all_day", "0") == "1"
     due_time = request.form["due_time"]
     details = request.form["details"].replace("\r", "").replace("\n", "<br>")
+    print("details {}".format(details))
     color = request.form["color"]
     has_repetition = request.form.get("repeats", "0") == "1"
-    #image = request.form["image"]
-    print("FUCK")
-    print(request.files)
-    image = request.files.get('image', '')
     repetition_type = request.form.get("repetition_type")
     repetition_subtype = request.form.get("repetition_subtype")
     repetition_value = int(request.form["repetition_value"])
@@ -258,7 +264,7 @@ def save_task_action(calendar_id: str) -> Response:
                               title=title,
                               is_all_day=is_all_day,
                               due_time=due_time,
-			      image=image,
+			      image=image_name,
                               details=details,
                               color=color,
                               has_repetition=has_repetition,
