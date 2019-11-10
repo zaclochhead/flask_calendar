@@ -15,7 +15,7 @@
 </head>
 <body>
     {% if editing %}
-        <form autocomplete="off" method="POST"
+        <form autocomplete="off" enctype="multipart/form-data" method="POST"
             action="{{ base_url }}/{{ calendar_id }}/{{ year }}/{{ month }}/{{ day }}/task/{{ task.get("id") }}">
     {% else %}
         <form autocomplete="off" enctype="multipart/form-data" method="POST" action="{{ base_url }}/{{ calendar_id }}/new_task">
