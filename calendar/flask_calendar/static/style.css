@@ -50,7 +50,7 @@ li {
 
 .new-task {
     color: #F7F7F7;
-    background-color: #A1D360;
+    background-color: #FF80CE;
     margin-top: 18px;
 }
 
@@ -176,7 +176,7 @@ span.daynumber {
 span.daynumber-current {
     font-weight: 700;
     color: #F7F7F7;
-    background-color: #A1D360;
+    background-color: #FF80CE;
     padding: 3px;
     border-radius: 15%;
 }
