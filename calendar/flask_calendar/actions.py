@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timedelta
 import re
 from typing import (cast, Optional)  # noqa: F401
 from werkzeug.wrappers import Response
@@ -172,10 +173,11 @@ def edit_task_action(calendar_id: str, year: int, month: int, day: int, task_id:
 
 def update_task_action(calendar_id: str, year: str, month: str, day: str, task_id: str) -> Response:
     # Logic is same as save + delete, could refactor but can wait until need to change any save/delete logic
-
+    print("updating task")
     calendar_data = CalendarData(current_app.config['DATA_FOLDER'])
     image_name=''
     image = request.files.get('test', '')
+    print(request.files)
     if image:
         print("saving image {}".format(image.filename))
         image_name = image.filename
@@ -183,6 +185,31 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
     # For creation of "updated" task use only form data
     title = request.form["title"].strip()
     date = request.form.get("date", "")
+    end_date_s = request.form.get("end_date", "")
+    calendar_dates = []
+    if len(date) > 0:
+        date_fragments = re.split("-", date)
+        year = int(date_fragments[0])  # type: Optional[int]
+        month = int(date_fragments[1])  # type: Optional[int]
+        day = int(date_fragments[2])  # type: Optional[int]
+    else:
+        year = month = day = None
+    calendar_dates.append({"year": year, "month": month, "day": day})
+    print("end_date - {}".format(end_date_s))
+    if end_date_s and end_date_s != date:
+        start_date = datetime.strptime(date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date_s, "%Y-%m-%d")
+        delta = end_date - start_date
+        for i in range(delta.days + 1):
+            day = start_date + timedelta(days=i)
+            year = int(str(day).split("-")[0])
+            month = int(str(day).split("-")[1])
+            day = int(str(day).split("-")[2].split(" ")[0])
+            if i > 0:
+            	calendar_dates.append({"year": year, "month": month, "day": day})
+            
+    print("calendar_dates - {}".format(calendar_dates))
+
     if len(date) > 0:
         fragments = re.split("-", date)
         updated_year = int(fragments[0])  # type: Optional[int]
@@ -199,20 +226,23 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
     repetition_subtype = request.form.get("repetition_subtype", "")
     repetition_value = int(request.form["repetition_value"])  # type: int
 
-    calendar_data.create_task(calendar_id=calendar_id,
-                              year=updated_year,
-                              month=updated_month,
-                              day=updated_day,
-                              title=title,
-                              is_all_day=is_all_day,
-                              due_time=due_time,
-                              image=image_name,
-                              details=details,
-                              color=color,
-                              has_repetition=has_repetition,
-                              repetition_type=repetition_type,
-                              repetition_subtype=repetition_subtype,
-                              repetition_value=repetition_value)
+    for i in range(0, len(calendar_dates)):
+    	calendar_data.create_task(calendar_id=calendar_id,
+    	                          year=calendar_dates[i]["year"],
+    	                          month=calendar_dates[i]["month"],
+                                  start_date = date,
+                                  end_date = end_date_s,
+    	                          day=calendar_dates[i]["day"],
+    	                          title=title,
+    	                          is_all_day=is_all_day,
+    	                          due_time=due_time,
+    	    		          image=image_name,
+    	                          details=details,
+    	                          color=color,
+    	                          has_repetition=has_repetition,
+    	                          repetition_type=repetition_type,
+    	                          repetition_subtype=repetition_subtype,
+    	                          repetition_value=repetition_value)
     # For deletion of old task data use only url data
     calendar_data.delete_task(calendar_id=calendar_id,
                               year_str=year,
@@ -239,6 +269,8 @@ def save_task_action(calendar_id: str) -> Response:
         image_name = image.filename
         image.save(os.path.join(current_app.config['IMAGE_PATH'], image.filename))
     date = request.form.get("date", "")
+    end_date_s = request.form.get("end_date", "")
+    calendar_dates = []
     if len(date) > 0:
         date_fragments = re.split("-", date)
         year = int(date_fragments[0])  # type: Optional[int]
@@ -246,10 +278,24 @@ def save_task_action(calendar_id: str) -> Response:
         day = int(date_fragments[2])  # type: Optional[int]
     else:
         year = month = day = None
+    calendar_dates.append({"year": year, "month": month, "day": day})
+    print("end_date - {}".format(end_date_s))
+    if end_date_s and end_date_s != date:
+        start_date = datetime.strptime(date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date_s, "%Y-%m-%d")
+        delta = end_date - start_date
+        for i in range(delta.days + 1):
+            day = start_date + timedelta(days=i)
+            year = int(str(day).split("-")[0])
+            month = int(str(day).split("-")[1])
+            day = int(str(day).split("-")[2].split(" ")[0])
+            if i > 0:
+            	calendar_dates.append({"year": year, "month": month, "day": day})
+	    
+    print("calendar_dates - {}".format(calendar_dates))
     is_all_day = request.form.get("is_all_day", "0") == "1"
     due_time = request.form["due_time"]
     details = request.form["details"].replace("\r", "").replace("\n", "<br>")
-    print("details {}".format(details))
     color = request.form["color"]
     has_repetition = request.form.get("repeats", "0") == "1"
     repetition_type = request.form.get("repetition_type")
@@ -257,20 +303,23 @@ def save_task_action(calendar_id: str) -> Response:
     repetition_value = int(request.form["repetition_value"])
 
     calendar_data = CalendarData(current_app.config['DATA_FOLDER'])
-    calendar_data.create_task(calendar_id=calendar_id,
-                              year=year,
-                              month=month,
-                              day=day,
-                              title=title,
-                              is_all_day=is_all_day,
-                              due_time=due_time,
-			      image=image_name,
-                              details=details,
-                              color=color,
-                              has_repetition=has_repetition,
-                              repetition_type=repetition_type,
-                              repetition_subtype=repetition_subtype,
-                              repetition_value=repetition_value)
+    for i in range(0, len(calendar_dates)):
+    	calendar_data.create_task(calendar_id=calendar_id,
+    	                          year=calendar_dates[i]["year"],
+    	                          month=calendar_dates[i]["month"],
+                                  start_date = date,
+                                  end_date = end_date_s,
+    	                          day=calendar_dates[i]["day"],
+    	                          title=title,
+    	                          is_all_day=is_all_day,
+    	                          due_time=due_time,
+    	    		          image=image_name,
+    	                          details=details,
+    	                          color=color,
+    	                          has_repetition=has_repetition,
+    	                          repetition_type=repetition_type,
+    	                          repetition_subtype=repetition_subtype,
+    	                          repetition_value=repetition_value)
 
     if year is None:
         return redirect("{}/{}/".format(current_app.config['BASE_URL'], calendar_id), code=302)

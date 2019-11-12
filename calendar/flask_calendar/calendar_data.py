@@ -185,15 +185,17 @@ class CalendarData:
 
         self._save_calendar(data, filename=calendar_id)
 
-    def create_task(self, calendar_id: str, year: Optional[int], month: Optional[int], day: Optional[int], title: str,
+    def create_task(self, calendar_id: str, year: Optional[int], month: Optional[int], day: Optional[int], start_date: str, end_date: str, title: str,
                     is_all_day: bool, due_time: str, image, details: str, color: str, has_repetition: bool,
                     repetition_type: Optional[str], repetition_subtype: Optional[str], repetition_value: int) -> bool:
         details = details if len(details) > 0 else "&nbsp;"
         data = self.load_calendar(calendar_id)
-
+        print("creating task with start {} and end {}".format(start_date, end_date))
         new_task = {
             "id": int(time.time()),
             "color": color,
+            "start_date": start_date,  
+            "end_date": end_date,  
             "due_time": due_time,
             "is_all_day": is_all_day,
             "title": title,
