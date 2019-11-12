@@ -1,4 +1,5 @@
 import os
+import time
 from datetime import datetime, timedelta
 import re
 from typing import (cast, Optional)  # noqa: F401
@@ -226,8 +227,11 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
     repetition_subtype = request.form.get("repetition_subtype", "")
     repetition_value = int(request.form["repetition_value"])  # type: int
 
+    id = int(time.time())
     for i in range(0, len(calendar_dates)):
-    	calendar_data.create_task(calendar_id=calendar_id,
+    	calendar_data.create_task(
+                                  id = id, 
+				  calendar_id=calendar_id,
     	                          year=calendar_dates[i]["year"],
     	                          month=calendar_dates[i]["month"],
                                   start_date = date,
@@ -303,8 +307,11 @@ def save_task_action(calendar_id: str) -> Response:
     repetition_value = int(request.form["repetition_value"])
 
     calendar_data = CalendarData(current_app.config['DATA_FOLDER'])
+    id = int(time.time())
     for i in range(0, len(calendar_dates)):
-    	calendar_data.create_task(calendar_id=calendar_id,
+    	calendar_data.create_task(
+				  id = id, 		
+				  calendar_id=calendar_id,
     	                          year=calendar_dates[i]["year"],
     	                          month=calendar_dates[i]["month"],
                                   start_date = date,

@@ -149,15 +149,22 @@ class CalendarData:
     def delete_task(self, calendar_id: str, year_str: str, month_str: str, day_str: str, task_id: int) -> None:
         deleted = False
         data = self.load_calendar(calendar_id)
-
+        print("deleting {}".format(task_id))
         if (year_str in data[KEY_TASKS][KEY_NORMAL_TASK] and
                 month_str in data[KEY_TASKS][KEY_NORMAL_TASK][year_str] and
                 day_str in data[KEY_TASKS][KEY_NORMAL_TASK][year_str][month_str]):
             for index, task in enumerate(data[KEY_TASKS][KEY_NORMAL_TASK][year_str][month_str][day_str]):
+                print("task id - {} index - {}".format(task["id"], index))
                 if task["id"] == task_id:
                     data[KEY_TASKS][KEY_NORMAL_TASK][year_str][month_str][day_str].pop(index)
                     deleted = True
-
+        for year in data[KEY_TASKS][KEY_NORMAL_TASK]:
+            for month in data[KEY_TASKS][KEY_NORMAL_TASK][year]:
+            	for day in data[KEY_TASKS][KEY_NORMAL_TASK][year][month]:
+                    for index, task in enumerate(data[KEY_TASKS][KEY_NORMAL_TASK][year][month][day]):
+                        if task["id"] == task_id:
+                            data[KEY_TASKS][KEY_NORMAL_TASK][year][month][day].pop(index)
+                            deleted = True
         if not deleted:
             for index, task in enumerate(data[KEY_TASKS][KEY_REPETITIVE_TASK]):
                 if task["id"] == task_id:
@@ -185,14 +192,14 @@ class CalendarData:
 
         self._save_calendar(data, filename=calendar_id)
 
-    def create_task(self, calendar_id: str, year: Optional[int], month: Optional[int], day: Optional[int], start_date: str, end_date: str, title: str,
+    def create_task(self, id: int, calendar_id: str, year: Optional[int], month: Optional[int], day: Optional[int], start_date: str, end_date: str, title: str,
                     is_all_day: bool, due_time: str, image, details: str, color: str, has_repetition: bool,
                     repetition_type: Optional[str], repetition_subtype: Optional[str], repetition_value: int) -> bool:
         details = details if len(details) > 0 else "&nbsp;"
         data = self.load_calendar(calendar_id)
         print("creating task with start {} and end {}".format(start_date, end_date))
         new_task = {
-            "id": int(time.time()),
+            "id": id,
             "color": color,
             "start_date": start_date,  
             "end_date": end_date,  
