@@ -12,20 +12,33 @@ from flask_calendar.actions import (index_action, login_action, do_login_action,
                                     edit_task_action, update_task_action, save_task_action, delete_task_action,
                                     update_task_day_action, hide_repetition_task_instance_action)
 from flask_calendar.app_utils import task_details_for_markup
+app = Flask(__name__)
+app.config.from_object('config')
+
+#if config_overrides is not None:
+#    app.config.from_mapping(config_overrides)
+
+if app.config['LOCALE'] is not None:
+    try:
+        locale.setlocale(locale.LC_ALL, app.config['LOCALE'])
+    except locale.Error as e:
+        app.logger.warning("{} ({})".format(str(e), app.config['LOCALE']))
 
 
-def create_app(config_overrides: Dict = None) -> Flask:
-    app = Flask(__name__)
-    app.config.from_object('config')
 
-    if config_overrides is not None:
-        app.config.from_mapping(config_overrides)
 
-    if app.config['LOCALE'] is not None:
-        try:
-            locale.setlocale(locale.LC_ALL, app.config['LOCALE'])
-        except locale.Error as e:
-            app.logger.warning("{} ({})".format(str(e), app.config['LOCALE']))
+#    def create_app(config_overrides: Dict = None) -> Flask:
+#        app = Flask(__name__)
+#        app.config.from_object('config')
+#    
+#        if config_overrides is not None:
+#            app.config.from_mapping(config_overrides)
+#    
+#        if app.config['LOCALE'] is not None:
+#            try:
+#                locale.setlocale(locale.LC_ALL, app.config['LOCALE'])
+#            except locale.Error as e:
+#                app.logger.warning("{} ({})".format(str(e), app.config['LOCALE']))
 
     # To avoid main_calendar_action below shallowing favicon requests and generating error logs
     @app.route('/favicon.ico')
@@ -53,10 +66,10 @@ def create_app(config_overrides: Dict = None) -> Flask:
 
     app.jinja_env.filters['task_details_for_markup'] = task_details_for_markup
 
-    return app
 
 
 if __name__ == "__main__":
-    app = create_app()
+#def app(foo,bar):
+    #app = create_app()
     app.run(debug=app.config['DEBUG'], host='0.0.0.0')
     #app.run(debug=app.config['DEBUG'], host=app.config['HOST_IP'])
