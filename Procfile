@@ -1,3 +1,1 @@
-web: gunicorn --pythonpath calendar/flask_calendar wsgi:app
-
-
+web: gunicorn --pythonpath flask_calendar wsgi:app
