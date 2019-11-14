@@ -3,13 +3,13 @@ DEBUG = True
 DATA_FOLDER = "data"
 USERS_DATA_FOLDER = "users"
 #BASE_URL = "http://0.0.0.0:5000"
-BASE_URL = "http://192.168.20.40:5000"
+BASE_URL = "https://chub-calendar.herokuapp.com/"
 MIN_YEAR = 2017
 MAX_YEAR = 2100
 PASSWORD_SALT = "something random and full of non-standard characters"
 #HOST_IP = "0.0.0.0"  # set to None for production
 localhost = "0.0.0.0"  # set to None for production
-HOST_IP = "192.168.20.40"  # set to None for production
+HOST_IP = "https://chub-calendar.herokuapp.com/"  # set to None for production
 LOCALE = "es_ES.UTF-8"
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 TIMEZONE = "Australia/Sydney"
