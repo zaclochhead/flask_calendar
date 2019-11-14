@@ -4,9 +4,9 @@ import locale
 import os
 from typing import cast, Dict
 from flask import Flask, Response, send_from_directory
-import sys
-sys.path.append("..")
-import config
+#import sys
+#sys.path.append("..")
+from .. import config
 
 from flask_calendar.actions import (index_action, login_action, do_login_action, main_calendar_action, new_task_action,
                                     edit_task_action, update_task_action, save_task_action, delete_task_action,
