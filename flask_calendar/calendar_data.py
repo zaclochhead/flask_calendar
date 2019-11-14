@@ -6,7 +6,7 @@ from typing import (cast, Dict, List, Optional)
 
 from flask import current_app
 
-from flask_calendar.gregorian_calendar import GregorianCalendar
+from gregorian_calendar import GregorianCalendar
 
 
 KEY_TASKS = "tasks"

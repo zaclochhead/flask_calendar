@@ -7,11 +7,11 @@ from werkzeug.wrappers import Response
 
 from flask import render_template, request, jsonify, redirect, abort, make_response, current_app, g
 
-from flask_calendar.constants import SESSION_ID
-from flask_calendar.gregorian_calendar import GregorianCalendar
-from flask_calendar.calendar_data import CalendarData
-from flask_calendar.authentication import Authentication
-from flask_calendar.app_utils import (previous_month_link, next_month_link, new_session_id, add_session, authenticated,
+from constants import SESSION_ID
+from gregorian_calendar import GregorianCalendar
+from calendar_data import CalendarData
+from authentication import Authentication
+from app_utils import (previous_month_link, next_month_link, new_session_id, add_session, authenticated,
                                       get_session_username, authorized)
 
 

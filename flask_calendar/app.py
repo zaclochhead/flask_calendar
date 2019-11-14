@@ -4,14 +4,12 @@ import locale
 import os
 from typing import cast, Dict
 from flask import Flask, Response, send_from_directory
-#import sys
-#sys.path.append("..")
-from .. import config
+import config
 
-from flask_calendar.actions import (index_action, login_action, do_login_action, main_calendar_action, new_task_action,
+from actions import (index_action, login_action, do_login_action, main_calendar_action, new_task_action,
                                     edit_task_action, update_task_action, save_task_action, delete_task_action,
                                     update_task_day_action, hide_repetition_task_instance_action)
-from flask_calendar.app_utils import task_details_for_markup
+from app_utils import task_details_for_markup
 app = Flask(__name__)
 app.config.from_object('config')
 

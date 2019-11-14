@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from flask_calendar.calendar_data import CalendarData
+from calendar_data import CalendarData
 
 
 class Authorization:
