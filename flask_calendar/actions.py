@@ -118,7 +118,7 @@ def new_task_action(calendar_id: str, year: int, month: int) -> Response:
         "repeats": False,
         "details": ""
     }
-
+    print("task is {task")
     return cast(Response, render_template(
         "task.html",
         calendar_id=calendar_id,
@@ -265,13 +265,15 @@ def update_task_action(calendar_id: str, year: str, month: str, day: str, task_i
 
 
 def save_task_action(calendar_id: str) -> Response:
+    print("saving task for calendar")
     title = request.form["title"].strip()
     image_name=''
     image = request.files.get('test', '')
     if image:
         print("saving image {}".format(image.filename))
         image_name = image.filename
-        image.save(os.path.join(current_app.config['IMAGE_PATH'], image.filename))
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        image.save(os.path.join(basedir, current_app.config['IMAGE_PATH'], image.filename))
     date = request.form.get("date", "")
     end_date_s = request.form.get("end_date", "")
     calendar_dates = []
